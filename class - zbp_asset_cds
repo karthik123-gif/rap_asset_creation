@@ -1,0 +1,127 @@
+CLASS lhc_Asset DEFINITION INHERITING FROM cl_abap_behavior_handler.
+
+  PRIVATE SECTION.
+
+    METHODS get_instance_authorizations FOR INSTANCE AUTHORIZATION
+      IMPORTING keys REQUEST requested_authorizations FOR Asset RESULT result.
+
+
+    METHODS createInstance FOR MODIFY
+      IMPORTING keys FOR ACTION Asset~createInstance.
+    METHODS copy FOR MODIFY
+      IMPORTING keys FOR ACTION Asset~copy.
+*    METHODS earlynumbering_create FOR NUMBERING
+*      IMPORTING entities FOR CREATE Asset.
+
+
+
+ENDCLASS.
+
+CLASS lhc_Asset IMPLEMENTATION.
+
+  METHOD get_instance_authorizations.
+  ENDMETHOD.
+
+
+
+  METHOD createInstance.
+
+    MODIFY ENTITIES OF zasset_cds IN LOCAL MODE
+    ENTITY Asset
+       CREATE FROM VALUE #( FOR <instance> IN keys (
+    %cid                        = <instance>-%cid
+    CompanyCode                 = <instance>-%cid
+    Project_ItemNumber          = '115'
+    Project_Manager             = 'RAVI'
+    Assetclass                  = 'FNM'
+    Assetclassdes               = 'Demo Asset'
+    Asset_Capitalization_Date   = sy-datum
+    Cost_Center                 = 'Mumbai'
+    AssetMain_Number            = '7'
+    %control =
+      VALUE #(
+        CompanyCode                     = if_abap_behv=>mk-on
+        Project_ItemNumber              = if_abap_behv=>mk-on
+        Project_Manager                 = if_abap_behv=>mk-on
+        Assetclass                      = if_abap_behv=>mk-on
+        Assetclassdes                   = if_abap_behv=>mk-on
+        Asset_Capitalization_Date       = if_abap_behv=>mk-on
+        Cost_Center                     = if_abap_behv=>mk-on
+        AssetMain_Number                = if_abap_behv=>mk-on
+
+      )
+  ) )
+
+  MAPPED   mapped
+  FAILED   failed
+  REPORTED reported.
+
+  ENDMETHOD.
+
+
+
+
+  METHOD copy.
+
+    DATA: lt_asset TYPE TABLE FOR CREATE zasset_cds.
+
+    READ TABLE keys WITH KEY %cid = '' INTO DATA(key_with_intial_cid).
+    ASSERT key_with_intial_cid IS INITIAL.
+
+    " Reading selected data from frontend
+    READ ENTITIES OF zasset_cds IN LOCAL MODE
+      ENTITY Asset
+      ALL FIELDS WITH CORRESPONDING #( keys )
+      RESULT DATA(assets)
+      FAILED failed.
+
+    LOOP AT assets ASSIGNING FIELD-SYMBOL(<lfs_assets>).
+*
+*      APPEND VALUE #(
+*        %cid     = keys[ KEY entity %key = <lfs_assets>-%key ]-%cid
+*        %is_draft = keys[ KEY entity %key = <lfs_assets>-%key ]-%param-%is_draft
+*        %data    = CORRESPONDING #( <lfs_assets>  EXCEPT CompanyCode  )
+*      ) TO lt_asset ASSIGNING FIELD-SYMBOL(<lfs_newAsset>).
+
+
+  APPEND VALUE #(
+  %cid      = keys[ KEY entity %key = <lfs_assets>-%key ]-%cid
+  %is_draft = keys[ KEY entity %key = <lfs_assets>-%key ]-%param-%is_draft
+  %data     =
+                CORRESPONDING #( <lfs_assets> EXCEPT CompanyCode )
+                CompanyCode = '110'  " example
+             )
+ TO lt_asset ASSIGNING FIELD-SYMBOL(<lfs_newAsset>).
+
+
+    ENDLOOP.
+
+    MODIFY ENTITIES OF zasset_cds IN LOCAL MODE
+    ENTITY Asset
+    CREATE FIELDS ( CompanyCode Project_ItemNumber  Project_Manager Assetclass Assetclassdes Asset_Capitalization_Date  AssetMain_Number )
+    WITH lt_asset
+    MAPPED DATA(mapped_create).
+    mapped-asset = mapped_create-asset.
+
+  ENDMETHOD.
+
+
+
+*
+*  METHOD earlynumbering_create.
+*
+*  loop at entities INTO DATA(entity).
+*   try.
+*  mapped-asset = VALUE #( (   %cid = entity-%cid
+*                                CompanyCode = cl_uuid_factory=>create_system_uuid(  )->create_uuid_x16(  ) ) ).
+*  catch cx_uuid_error.
+*
+*
+*
+*  ENDTRY.
+*  ENDLOOP.
+*
+*
+*  ENDMETHOD.
+
+ENDCLASS.
