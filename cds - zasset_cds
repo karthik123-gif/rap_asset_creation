@@ -1,0 +1,18 @@
+@AccessControl.authorizationCheck: #NOT_REQUIRED
+@EndUserText.label: 'cds view for asset creation table'
+@Metadata.ignorePropagatedAnnotations: true
+@Metadata.allowExtensions: true
+define root view entity zasset_cds as select from zasset_demo
+
+{
+   
+    key zz_pbukr as CompanyCode,
+    key external_id as Project_ItemNumber,
+    zz_proj_manager as Project_Manager,
+    assetclass as Assetclass,
+    assetclassdes as Assetclassdes,
+    aktiv as Asset_Capitalization_Date,
+    zz_kostl_resp as Cost_Center,
+    anlhtxt as AssetMain_Number 
+    
+}
