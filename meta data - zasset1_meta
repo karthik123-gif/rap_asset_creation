@@ -1,0 +1,96 @@
+@Metadata.layer: #CORE
+
+@UI: {
+    headerInfo: {
+        typeName: 'Asset Creation',
+        typeNamePlural: 'Asset Creation',
+        title: {  type: #STANDARD, value: 'CompanyCode'  } },
+    presentationVariant: [{ sortOrder: [{ by: 'CompanyCode', direction:
+    #ASC }] }]
+
+}
+@Search.searchable: true
+
+
+
+annotate view zasset_cds
+    with 
+{
+
+@UI.facet: [{ id: 'CompanyCode',
+                     purpose: #STANDARD,
+                     type: #IDENTIFICATION_REFERENCE,
+                     position: 10,
+                     label: 'Asset Creation'}
+                         ]
+    @UI.lineItem: [ {
+    position: 10 , type : #FOR_ACTION, dataAction: 'copy', label: 'Copy '
+
+  },{ position: 10 , label: 'Company Code'}, {
+    position: 20 , type : #FOR_ACTION, dataAction: 'createInstance', label: 'Add'
+
+  }]
+
+  @UI.identification: [{ position: 10, label: 'Company Code' }]
+  @UI.selectionField: [{ position: 10 }]
+  @EndUserText.label: 'Company Code'
+  @Search.defaultSearchElement: true
+  @Consumption.valueHelpDefinition: [{ entity: { 
+            name: 'zasset_value', 
+            element: 'CompanyCode' 
+        }              }]
+    CompanyCode;
+      @UI.lineItem: [{ position: 20 , label: 'Project Item Number'}]
+  @UI.identification: [{ position: 20, label: 'Project Item Number' }]
+  @UI.selectionField: [{ position: 20 }]
+  @EndUserText.label: 'Project Item Number'
+  @Search.defaultSearchElement: true
+   @Consumption.valueHelpDefinition: [{ entity: { 
+            name: 'zasset_value', 
+            element: 'ExternalId' 
+        }              }]
+  
+    Project_ItemNumber;
+      @UI.lineItem: [{ position: 30 , label: 'Project Manager'}]
+  @UI.identification: [{ position: 30, label: 'Project Manager' }]
+  @UI.selectionField: [{ position: 30 }]
+  @EndUserText.label: 'Project_Manager'
+  @Consumption.valueHelpDefinition: [{ entity: { 
+            name: 'zasset_value', 
+            element: 'ZzProjManager' 
+        }              }]
+  
+  @Search.defaultSearchElement: true
+    Project_Manager;
+      @UI.lineItem: [{ position: 40 , label: 'Asset class'}]
+  @UI.identification: [{ position: 40, label: 'Asset class' }]
+//  @UI.selectionField: [{ position: 40 }]
+  @EndUserText.label: 'Asset class'
+//  @Search.defaultSearchElement: true
+    Assetclass;
+      @UI.lineItem: [{ position: 50 , label: 'Assetclass Description'}]
+  @UI.identification: [{ position: 50, label: 'Assetclass Description' }]
+//  @UI.selectionField: [{ position: 50 }]
+  @EndUserText.label: 'Assetclass Description'
+//  @Search.defaultSearchElement: true
+    Assetclassdes;
+      @UI.lineItem: [{ position: 60 , label: 'Asset Capitalization Date'}]
+  @UI.identification: [{ position: 60, label: 'Asset Capitalization Date' }]
+//  @UI.selectionField: [{ position: 60 }]
+  @EndUserText.label: 'Asset Capitalization Date'
+//  @Search.defaultSearchElement: true
+    Asset_Capitalization_Date;
+      @UI.lineItem: [{ position: 70 , label: 'Cost Center'}]
+  @UI.identification: [{ position: 70, label: 'Cost Center' }]
+//  @UI.selectionField: [{ position: 70 }]
+  @EndUserText.label: 'Cost Center'
+//  @Search.defaultSearchElement: true
+    Cost_Center;
+      @UI.lineItem: [{ position: 80 , label: 'AssetMain Number text'}]
+  @UI.identification: [{ position: 80, label: 'AssetMain Number text' }]
+//  @UI.selectionField: [{ position: 80 }]
+  @EndUserText.label: 'AssetMain Number text'
+//  @Search.defaultSearchElement: true
+    AssetMain_Number;
+    
+}
