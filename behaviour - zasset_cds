@@ -1,0 +1,42 @@
+managed implementation in class zbp_asset_cds unique;
+strict ( 2 );
+with draft;
+
+define behavior for zasset_cds alias Asset
+draft table zasset_demo_D
+persistent table zasset_demo
+lock master
+total etag Asset_Capitalization_Date
+//early numbering
+
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update ;
+  delete;
+//  field ( mandatory : create ) CompanyCode , Project_ItemNumber;
+
+factory action copy[1];
+static factory action createInstance[1];
+
+ draft action Edit;
+  draft action Activate;
+  draft action Resume;
+  draft action Discard;
+
+  draft determine action Prepare;
+
+  mapping for zasset_demo
+  {
+
+  CompanyCode  =  zz_pbukr;
+  Project_ItemNumber = external_id;
+  Project_Manager   = zz_proj_manager;
+  Assetclass    = assetclass ;
+  Assetclassdes = assetclassdes;
+  Asset_Capitalization_Date =  aktiv;
+  Cost_Center = zz_kostl_resp;
+  AssetMain_Number = anlhtxt;
+  }
+}
