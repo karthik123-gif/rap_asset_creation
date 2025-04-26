@@ -1,0 +1,18 @@
+@EndUserText.label : 'Draft table for entity ZASSET_CDS'
+@AbapCatalog.enhancement.category : #EXTENSIBLE_ANY
+@AbapCatalog.tableCategory : #TRANSPARENT
+@AbapCatalog.deliveryClass : #A
+@AbapCatalog.dataMaintenance : #RESTRICTED
+define table zasset_demo_d {
+
+  key companycode           : abap.char(4) not null;
+  key project_itemnumber    : abap.char(24) not null;
+  project_manager           : abap.char(12);
+  assetclass                : abap.char(8);
+  assetclassdes             : abap.char(50);
+  asset_capitalization_date : abap.dats;
+  cost_center               : abap.char(10);
+  assetmain_number          : abap.char(50);
+  "%admin"                  : include sych_bdl_draft_admin_inc;
+
+}
