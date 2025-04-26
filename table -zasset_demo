@@ -1,0 +1,17 @@
+@EndUserText.label : 'Demo asset table'
+@AbapCatalog.enhancement.category : #NOT_EXTENSIBLE
+@AbapCatalog.tableCategory : #TRANSPARENT
+@AbapCatalog.deliveryClass : #A
+@AbapCatalog.dataMaintenance : #ALLOWED
+define table zasset_demo {
+
+  key zz_pbukr    : abap.char(4) not null;
+  key external_id : abap.char(24) not null;
+  zz_proj_manager : abap.char(12);
+  assetclass      : abap.char(8);
+  assetclassdes   : abap.char(50);
+  aktiv           : abap.dats;
+  zz_kostl_resp   : abap.char(10);
+  anlhtxt         : abap.char(50);
+
+}
